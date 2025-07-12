@@ -11,6 +11,11 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "PsCielo",
   description: "Terapia psicológica online",
+  icons: {
+    icon: "/imagenes/faviconSol.png",
+    shortcut: "/imagenes/faviconSol.png",
+    apple: "/imagenes/faviconSol.png",
+  },
 };
 
 export default function RootLayout({
