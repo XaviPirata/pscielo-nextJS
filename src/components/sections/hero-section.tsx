@@ -3,6 +3,10 @@
 import ScrollIndicator from "@/components/ui/scroll-indicator";
 
 export default function HeroSection() {
+  // URLs de Cloudinary para optimizar el rendimiento
+  const videoHorizontalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752377465/Pscielo-Hero-Horizontal_nzenat.mp4";
+  const videoVerticalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752377465/Pscielo-Hero-Vertical_xqls8v.mp4";
+
   return (
     <section id="hero" className="relative h-screen w-full bg-black overflow-hidden">
       {/* Desktop Video Background (Horizontal) */}
@@ -13,8 +17,9 @@ export default function HeroSection() {
         playsInline
         preload="auto"
         className="absolute top-0 left-0 w-full h-full object-cover opacity-50 hidden md:block"
+        key={videoHorizontalURL}
       >
-        <source src="/videos/pscielo-hero-horizontal.webm" type="video/webm" />
+        <source src={videoHorizontalURL} type="video/mp4" />
       </video>
 
       {/* Mobile Video Background (Vertical) */}
@@ -25,8 +30,9 @@ export default function HeroSection() {
         playsInline
         preload="auto"
         className="absolute top-0 left-0 w-full h-full object-cover opacity-50 block md:hidden"
+        key={videoVerticalURL}
       >
-        <source src="/videos/pscielo-hero-vertical.webm" type="video/webm" />
+        <source src={videoVerticalURL} type="video/mp4" />
       </video>
 
       {/* Scroll Indicator - Ajustado para mobile */}
