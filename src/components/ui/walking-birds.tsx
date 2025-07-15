@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import lottie from "lottie-web";
+import lottie, { AnimationItem } from "lottie-web";
 
 interface WalkingBirdsProps {
   className?: string;
@@ -18,10 +18,10 @@ export default function WalkingBirds({ className = "" }: WalkingBirdsProps) {
   const yellowBird3Ref = useRef<HTMLDivElement>(null);
 
   // Referencias para las instancias de animación
-  const redBirdInstance = useRef<any>(null);
-  const yellowBird1Instance = useRef<any>(null);
-  const yellowBird2Instance = useRef<any>(null);
-  const yellowBird3Instance = useRef<any>(null);
+  const redBirdInstance = useRef<AnimationItem | null>(null);
+  const yellowBird1Instance = useRef<AnimationItem | null>(null);
+  const yellowBird2Instance = useRef<AnimationItem | null>(null);
+  const yellowBird3Instance = useRef<AnimationItem | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

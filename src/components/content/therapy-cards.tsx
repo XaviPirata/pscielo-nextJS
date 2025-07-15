@@ -138,6 +138,7 @@ export default function TherapyCards() {
             {/* Tarjeta Principal con z-index superior */}
             <div className="relative z-10 h-full w-full">
               <div className="rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-32 sm:h-40 md:h-64 w-full transition-all duration-300 ease-out">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={card.src}
                   alt={card.title}

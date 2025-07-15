@@ -12,8 +12,6 @@ const Portal = ({ children }: PortalProps) => {
 
   useEffect(() => {
     setMounted(true);
-    // Renderizar en el div #__next de Next.js si existe
-    const target = document.querySelector("#__next") || document.body;
     return () => setMounted(false);
   }, []);
 

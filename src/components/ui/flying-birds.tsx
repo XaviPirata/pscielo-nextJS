@@ -46,8 +46,8 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
         [1, 0.984, 0.722, 1],
         [0.898, 0.718, 0.976, 1],
       ];
-      data.layers.forEach((l: any, i: number) => {
-        const fill = l.shapes?.[0]?.it?.find((it: any) => it.ty === "fl");
+      data.layers.forEach((l: Record<string, unknown>, i: number) => {
+        const fill = (l.shapes as Array<{ it: Array<{ ty: string; c?: { k: number[] } }> }>)?.[0]?.it?.find((it: { ty: string; c?: { k: number[] } }) => it.ty === "fl");
         if (fill?.c?.k) fill.c.k = palette[i % palette.length];
       });
 
@@ -56,19 +56,20 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
       data.h = innerHeight;
 
       /* 3. Reescala posiciones + tamaños */
-      data.layers.forEach((l: any) => {
-        l.ks?.p?.k?.forEach((kf: any) => {
-          if (Array.isArray(kf.s)) {
-            kf.s[0] = (kf.s[0] / 1920) * data.w;
-            kf.s[1] = (kf.s[1] / 1080) * data.h;
-          }
+              data.layers.forEach((l: Record<string, unknown>) => {
+          const ks = l.ks as { p?: { k?: Array<{ s: number[] }> }; s?: { k: number[] | Array<{ s: number[] }> | { s: number[] } } };
+          ks?.p?.k?.forEach((kf: { s: number[] }) => {
+            if (Array.isArray(kf.s)) {
+              kf.s[0] = (kf.s[0] / 1920) * data.w;
+              kf.s[1] = (kf.s[1] / 1080) * data.h;
+            }
+          });
+          const sk = ks?.s?.k;
+          const res = (s: number[]) => { s[0] *= BIRD_SCALE; s[1] *= BIRD_SCALE; };
+          if (Array.isArray(sk) && typeof sk[0] === "number") res(sk as number[]);
+          else if (Array.isArray(sk)) (sk as Array<{ s: number[] }>).forEach((kf: { s: number[] }) => Array.isArray(kf.s) && res(kf.s));
+          else if (typeof sk === "object" && Array.isArray((sk as { s: number[] })?.s)) res((sk as { s: number[] }).s);
         });
-        const sk = l.ks?.s?.k;
-        const res = (s: number[]) => { s[0] *= BIRD_SCALE; s[1] *= BIRD_SCALE; };
-        if (Array.isArray(sk) && typeof sk[0] === "number") res(sk);
-        else if (Array.isArray(sk)) sk.forEach((kf: any) => Array.isArray(kf.s) && res(kf.s));
-        else if (typeof sk === "object" && Array.isArray(sk?.s)) res(sk.s);
-      });
 
       /* 4. Lottie */
       anim.current = lottie.loadAnimation({
@@ -105,7 +106,6 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
 
         /* loop de física */
         gsap.ticker.add(() => {
-          const rectSVG = svg.getBoundingClientRect();
 
           wrappers.forEach((w, i) => {
             const br = w.getBoundingClientRect();

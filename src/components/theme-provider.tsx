@@ -23,7 +23,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // Guardar en localStorage
     try {
       localStorage.setItem("pscielo-theme", theme);
-    } catch (e) {
+    } catch {
       // Ignorar errores de localStorage
     }
   }, [theme]);
@@ -35,7 +35,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (savedTheme === "dark" || savedTheme === "light") {
         setTheme(savedTheme);
       }
-    } catch (e) {
+    } catch {
       // Usar tema por defecto si hay errores
     }
   }, []);

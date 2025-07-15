@@ -10,7 +10,7 @@ export const Card = React.memo(
     hovered,
     setHovered,
   }: {
-    card: any;
+    card: { title: string; src: string };
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
@@ -23,6 +23,7 @@ export const Card = React.memo(
         hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
       )}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={card.src}
         alt={card.title}

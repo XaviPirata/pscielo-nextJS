@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import lottie from "lottie-web";
+import lottie, { AnimationItem } from "lottie-web";
 
 interface BirdsAnimationProps {
   className?: string;
@@ -9,7 +9,7 @@ interface BirdsAnimationProps {
 
 export default function BirdsAnimation({ className = "" }: BirdsAnimationProps) {
   const animationContainer = useRef<HTMLDivElement>(null);
-  const animationInstance = useRef<any>(null);
+  const animationInstance = useRef<AnimationItem | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

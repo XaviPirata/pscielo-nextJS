@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring, PanInfo } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, PanInfo } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
@@ -127,17 +127,7 @@ type GaleriaInteractivaProps = {
   className?: string;
 };
 
-// Función para obtener el className según el layout - SIMPLIFICADO
-const getLayoutClass = (layout: string) => {
-  switch (layout) {
-    case 'wide':
-      return 'col-span-2 aspect-[3/2]';
-    case 'tall':
-      return 'row-span-2 aspect-[2/3]';
-    default:
-      return 'aspect-square';
-  }
-};
+
 
 export default function GaleriaInteractiva({ className }: GaleriaInteractivaProps) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -162,6 +152,14 @@ export default function GaleriaInteractiva({ className }: GaleriaInteractivaProp
   const totalPages = Math.ceil(IMAGENES.length / imagesPerPage);
   const startIndex = currentPage * imagesPerPage;
   const currentImages = IMAGENES.slice(startIndex, startIndex + imagesPerPage);
+
+  const navigateImage = useCallback((direction: number) => {
+    if (selectedImage === null) return;
+    const newIndex = selectedImage + direction;
+    if (newIndex >= 0 && newIndex < IMAGENES.length) {
+      setSelectedImage(newIndex);
+    }
+  }, [selectedImage]);
 
   // Cerrar con tecla Escape y navegación + Ocultar dock
   useEffect(() => {
@@ -198,15 +196,7 @@ export default function GaleriaInteractiva({ className }: GaleriaInteractivaProp
       if (dock) (dock as HTMLElement).style.display = '';
       if (whatsapp) (whatsapp as HTMLElement).style.display = '';
     };
-  }, [selectedImage]);
-
-  const navigateImage = useCallback((direction: number) => {
-    if (selectedImage === null) return;
-    const newIndex = selectedImage + direction;
-    if (newIndex >= 0 && newIndex < IMAGENES.length) {
-      setSelectedImage(newIndex);
-    }
-  }, [selectedImage]);
+  }, [selectedImage, navigateImage]);
 
   const handleImageLoad = (index: number) => {
     setImageLoaded(prev => {
@@ -237,7 +227,7 @@ export default function GaleriaInteractiva({ className }: GaleriaInteractivaProp
     setCurrentSlide((prev) => (prev - 1 + IMAGENES.length) % IMAGENES.length);
   };
 
-  const handleDragEnd = (event: any, info: PanInfo) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
     if (info.offset.x > threshold) {
       prevSlide();
