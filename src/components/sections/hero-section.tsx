@@ -16,7 +16,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-50 hidden md:block"
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-75 hidden md:block"
         key={videoHorizontalURL}
       >
         <source src={videoHorizontalURL} type="video/mp4" />
@@ -29,7 +29,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-50 block md:hidden"
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-75 block md:hidden"
         key={videoVerticalURL}
       >
         <source src={videoVerticalURL} type="video/mp4" />
