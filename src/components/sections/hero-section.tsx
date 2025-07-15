@@ -4,8 +4,8 @@ import ScrollIndicator from "@/components/ui/scroll-indicator";
 
 export default function HeroSection() {
   // URLs de Cloudinary para optimizar el rendimiento
-  const videoHorizontalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752377465/Pscielo-Hero-Horizontal_nzenat.mp4";
-  const videoVerticalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752377465/Pscielo-Hero-Vertical_xqls8v.mp4";
+  const videoHorizontalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752545578/Pscielo-Hero-Horizontal_wfpiiy.mp4";
+  const videoVerticalURL = "https://res.cloudinary.com/dwot9tp0f/video/upload/q_auto,f_auto,vc_auto/v1752545577/Pscielo-Hero-Vertical_jlehml.mp4";
 
   return (
     <section id="hero" className="relative h-screen w-full bg-black overflow-hidden">
