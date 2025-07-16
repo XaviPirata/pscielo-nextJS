@@ -30,13 +30,13 @@ export default function SmoothScrollManager() {
     }
 
     lenisRef.current = new Lenis({
-      lerp: 0.15,
-      touchMultiplier: 1.8,
-      touchInertiaMultiplier: 25,
-      syncTouchLerp: 0.1,
+      lerp: 0.08,
+      touchMultiplier: 3.0,
+      touchInertiaMultiplier: 15,
+      syncTouchLerp: 0.25,
       wheelMultiplier: 1.2,
       easing: (t) => {
-        return 1 - Math.pow(1 - t, 2.5);
+        return t;
       },
       smoothWheel: true,
       syncTouch: true,
@@ -213,15 +213,18 @@ export default function SmoothScrollManager() {
     sectionsRef.current = sections;
     
     if (isMobileRef.current) {
-      initializeLenis();
-      
+      // NO usar Lenis para móvil - solo scroll nativo suave
       document.body.classList.add('is-mobile');
       
       document.documentElement.style.overflowX = 'hidden';
       document.body.style.overflowX = 'hidden';
       
-      document.documentElement.style.scrollBehavior = 'auto';
-      document.body.style.scrollBehavior = 'auto';
+      // Scroll suave nativo - como cualquier página móvil
+      document.documentElement.style.scrollBehavior = 'smooth';
+      document.body.style.scrollBehavior = 'smooth';
+      
+      // Momentum scrolling para iOS - scroll natural
+      document.body.style.setProperty('-webkit-overflow-scrolling', 'touch');
       
       const metaTag = document.createElement('meta');
       metaTag.name = 'viewport';
@@ -235,15 +238,13 @@ export default function SmoothScrollManager() {
       }
       
       return () => {
-        if (lenisRef.current) {
-          lenisRef.current.destroy();
-          lenisRef.current = null;
-        }
+        // No cleanup de Lenis porque no lo usamos en móvil
         document.body.classList.remove('is-mobile');
         document.documentElement.style.overflowX = '';
         document.body.style.overflowX = '';
         document.documentElement.style.scrollBehavior = '';
         document.body.style.scrollBehavior = '';
+        document.body.style.setProperty('-webkit-overflow-scrolling', '');
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
