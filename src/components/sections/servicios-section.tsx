@@ -58,7 +58,7 @@ const SERVICIOS = [
     titulo: 'Talleres grupales',
     subtitulo: 'Aprender con otros. Habitarse en vínculo.',
     descripcion: 'Realizamos talleres sobre habilidades sociales, comunicación afectiva, expresión emocional, mindfulness y otros ejes clínicos. Son espacios diseñados para compartir, practicar herramientas y sentirse acompañado, especialmente útiles para quienes experimentan dificultades relacionales o desean trabajar su mundo interno desde lo vincular.',
-    video: '/videos/fondoTarjeta3.webm',
+    video: '/videos/fondotarjeta3.webm',
     gradiente: 'from-teal-400/20 via-green-400/10 to-emerald-400/20',
     color: '#14B8A6'
   },
