@@ -13,8 +13,8 @@ export default function ContactForm() {
     setSending(true);
     setFormMessage(""); // Limpiamos mensajes anteriores
 
-    // 🔴 IMPORTANTE: Reemplaza la IP de abajo con la IP pública de tu VPS 🔴
-    const endpoint = "http://34.95.137.40:3000/submit";
+    // 🔴 IMPORTANTE: ENDPOINT HTTPS 🔴
+    const endpoint = "https://psicodelcielo.com/submit";
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
