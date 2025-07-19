@@ -7,6 +7,7 @@ import SmoothScrollManager from "@/components/utils/smooth-scroll-manager";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import CustomCursor from "@/components/ui/custom-cursor";
 import { cn } from "@/lib/utils";
+import { GoogleTagManager } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: "PsCielo",
@@ -25,6 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
