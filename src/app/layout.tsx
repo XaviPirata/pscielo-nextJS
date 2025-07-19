@@ -26,7 +26,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
@@ -44,6 +43,7 @@ export default function RootLayout({
           <FloatingDock />
           <MobileMenu />
         </ThemeProvider>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
       </body>
     </html>
   );
