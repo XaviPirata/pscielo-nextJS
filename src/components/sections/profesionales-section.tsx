@@ -44,7 +44,7 @@ Laura cree en la importancia de construir un vínculo terapéutico basado en el 
   {
     name: "Lic. Andrea Ruiz",
     title: "Especialista en Mindfulness y Terapia de Aceptación",
-    imageSrc: "/imagenes/professional-4.JPEG",
+    imageSrc: "/imagenes/professional-4.jpeg",
     bio: `Psicóloga con diez años de ejercicio en la práctica clínica, formada en Terapia Cognitivo-Conductual y Terapias Contextuales (Mindfulness y ACT). 
     Cuenta con formación en Neuropsicología Clínica, lo que le permite integrar recursos actualizados para la evaluación, el diagnóstico y la intervención en jóvenes y adultos.
     
@@ -56,7 +56,7 @@ Laura cree en la importancia de construir un vínculo terapéutico basado en el 
   {
     name: "Lic. Wilson Batista",
     title: "Psicólogo clínico",
-    imageSrc: "/imagenes/professional-2.JPEG",
+    imageSrc: "/imagenes/professional-2.jpeg",
     bio: `Profesor (ISARM-Misiones) y Licenciado en Psicología (UNC) MP 15340. 
     Actualmente se especializa en terapias contextuales o de tercera ola, entre ellas la Terapia Dialéctico Conductual (DBT) y la Terapia de Aceptación y Compromiso (ACT). 
     Durante su formación de grado integró proyectos de investigación y docencia en el Instituto de Investigaciones Psicológicas (IIPsi-UNC), estudiando aspectos vinculados al rendimiento académico e inteligencia en estudiantes universitarios.
@@ -68,7 +68,7 @@ Laura cree en la importancia de construir un vínculo terapéutico basado en el 
   {
     name: "Lic. Mauricio Palamedi Nazabal",
     title: "Psicólogo clínico.",
-    imageSrc: "/imagenes/professional-5.JPEG",
+    imageSrc: "/imagenes/professional-5.jpeg",
     bio: `Psicólogo con enfoque integrativo y experiencia en el acompañamiento de jóvenes y adultos en procesos de cambio y crecimiento personal. 
     Su trabajo se orienta a brindar un espacio empático, seguro y flexible, donde cada persona pueda sentirse escuchada, comprendida y contenida.
     
