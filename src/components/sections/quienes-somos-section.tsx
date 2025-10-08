@@ -80,12 +80,9 @@ export default function QuienesSomosSection() {
               </p>
 
               <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
-                Desde PsCielo brindamos atención psicológica individual y procesos de evaluación neuropsicológica y neurodivergente, además de talleres grupales que abordan temas como la comunicación afectiva, la expresión emocional, el mindfulness y el acompañamiento en procesos de salud y enfermedad (psicooncología).
+                Desde PsCielo brindamos atención psicológica individual . Tambien contamos con profesionales formados en procesos de evaluación neuropsicológica y evaluación psicológica para personas neurodivergentes, además de talleres grupales que abordan temas como la comunicación afectiva, la expresión emocional, el mindfulness y el acompañamiento en procesos de salud y enfermedad (psicooncología).
               </p>
 
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
-                Nos mueve una certeza: que cada proceso merece un lugar cuidado. Un cielo posible, para habitar con otros.
-              </p>
             </div>
           </motion.div>
         </div>

@@ -23,21 +23,24 @@ export const ProfessionalCard = ({ name, title, imageSrc, layoutId, onClick }: P
         <div className="absolute inset-0 bg-gradient-to-r from-palette-accent-1/50 to-palette-accent-2/50 blur-3xl"></div>
       </div>
       
-      {/* Imagen de Fondo */}
+      {/* Imagen de Fondo - Con filtro Warm Sepia Rose */}
       <Image
         src={imageSrc}
         alt={`Fotografía de ${name}`}
         fill
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className="object-cover transition-all duration-700 ease-in-out 
+                   sepia-[0.6] saturate-[0.7] hue-rotate-[-15deg] brightness-[1.05] 
+                   group-hover:sepia-0 group-hover:saturate-100 group-hover:hue-rotate-0 group-hover:brightness-100 
+                   group-hover:scale-105"
         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
       />
       
-      {/* Capa de Color/Opacidad Unificadora */}
+      {/* Capa de tinte rosa cálido - Se desvanece al hacer hover */}
       <div className="absolute inset-0 bg-gradient-to-br
-                from-pink-200/[0.12]  /* rosa pastel, 12 % de opacidad */
-                via-pink-50/[0.08]    /* punto intermedio casi imperceptible */
-                to-amber-100/[0.12]   /* amarillo pastel, 12 % de opacidad */
-                transition-opacity duration-300
+                from-pink-200/[0.15]  /* tinte rosa más presente */
+                via-amber-100/[0.10]  /* transición cálida */
+                to-pink-100/[0.12]    /* cierre rosa suave */
+                transition-opacity duration-700
                 group-hover:opacity-0">
 </div>
       
