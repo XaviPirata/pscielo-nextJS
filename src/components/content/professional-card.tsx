@@ -12,6 +12,9 @@ type ProfessionalCardProps = {
 };
 
 export const ProfessionalCard = ({ name, title, imageSrc, layoutId, onClick }: ProfessionalCardProps) => {
+  // Determinar si necesita ajuste especial para mobile
+  const needsMobileAdjustment = name === "Lic. Mauricio Palamedi Nazabal" || name === "Lic. Wilson Batista";
+  
   return (
     <motion.div
       layoutId={layoutId}
@@ -28,10 +31,11 @@ export const ProfessionalCard = ({ name, title, imageSrc, layoutId, onClick }: P
         src={imageSrc}
         alt={`Fotografía de ${name}`}
         fill
-        className="object-cover transition-all duration-700 ease-in-out 
+        className={`transition-all duration-700 ease-in-out 
                    sepia-[0.6] saturate-[0.7] hue-rotate-[-15deg] brightness-[1.05] 
                    group-hover:sepia-0 group-hover:saturate-100 group-hover:hue-rotate-0 group-hover:brightness-100 
-                   group-hover:scale-105"
+                   group-hover:scale-105
+                   ${needsMobileAdjustment ? 'object-cover object-top' : 'object-cover object-center'}`}
         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
       />
       
