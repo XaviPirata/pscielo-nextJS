@@ -8,7 +8,7 @@ export default function SmoothScrollManager() {
   const isScrollingRef = useRef(false);
   const currentSectionRef = useRef(0);
   const sectionsRef = useRef<HTMLElement[]>([]);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMobileRef = useRef(false);
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -35,7 +35,7 @@ export default function SmoothScrollManager() {
       touchInertiaMultiplier: 15,
       syncTouchLerp: 0.25,
       wheelMultiplier: 1.2,
-      easing: (t) => {
+  easing: (t: number) => {
         return t;
       },
       smoothWheel: true,
@@ -59,35 +59,34 @@ export default function SmoothScrollManager() {
   }, [isScrollBlocked]);
 
   // Scroll suave avanzado para desktop (mantener como estaba)
-  const smoothScrollToSection = useCallback((targetY: number) => {
-    if (isMobileRef.current) return;
-    
-    const startY = window.scrollY;
-    
-    // Animación suave con framer-motion
-    animate(startY, targetY, {
-      duration: 1.2,
-      ease: [0.25, 0.46, 0.45, 0.94],
-      onUpdate: (value) => {
-        window.scrollTo(0, value);
-      },
-      onComplete: () => {
-        // Efecto de rebote sutil al final
-        animate(targetY, targetY - 5, {
-          duration: 0.1,
-          ease: "easeOut",
-          onUpdate: (value) => window.scrollTo(0, value),
-          onComplete: () => {
-            animate(targetY - 5, targetY, {
-              duration: 0.1,
-              ease: "easeOut",
-              onUpdate: (value) => window.scrollTo(0, value)
-            });
-          }
-        });
+  const smoothScrollToSection = useCallback(
+    (targetY: number, onSettled?: () => void) => {
+      if (isMobileRef.current) {
+        onSettled?.();
+        return 0;
       }
-    });
-  }, []);
+
+      const startY = window.scrollY;
+      const distance = Math.abs(targetY - startY);
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const normalizedDistance = Math.min(distance / viewportHeight, 3);
+      const duration = Math.min(0.85, Math.max(0.45, 0.45 + normalizedDistance * 0.18));
+
+      animate(startY, targetY, {
+        duration,
+        ease: [0.22, 0.8, 0.35, 1],
+  onUpdate: (value: number) => {
+          window.scrollTo(0, value);
+        },
+        onComplete: () => {
+          onSettled?.();
+        }
+      });
+
+      return duration;
+    },
+    []
+  );
 
   const scrollToSection = useCallback((index: number) => {
     if (isMobileRef.current) return;
@@ -174,7 +173,7 @@ export default function SmoothScrollManager() {
     const windowHeight = window.innerHeight;
     const threshold = windowHeight * 0.3;
     
-    sectionsRef.current.forEach((section, index) => {
+  sectionsRef.current.forEach((section: HTMLElement, index: number) => {
       const rect = section.getBoundingClientRect();
       const sectionTop = rect.top + scrollY;
       

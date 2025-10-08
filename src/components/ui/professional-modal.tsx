@@ -81,16 +81,27 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
                 <X size={18} className="md:size-6" />
               </button>
               
-              {/* Imagen - Solo visible en desktop */}
+              {/* Imagen - Solo visible en desktop - Transición de Warm Sepia Rose a color */}
               <div className="relative w-full h-48 flex-shrink-0 hidden
-                              md:block md:w-1/3 md:h-full">
-                <Image
-                  src={professional.imageSrc}
-                  alt={`Fotografía de ${professional.name}`}
-                  fill
-                  className="object-cover md:rounded-l-2xl"
-                  priority
-                />
+                              md:block md:w-1/3 md:h-full overflow-hidden">
+                <motion.div
+                  initial={{ 
+                    filter: "sepia(60%) saturate(70%) hue-rotate(-15deg) brightness(105%)" 
+                  }}
+                  animate={{ 
+                    filter: "sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%)" 
+                  }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={professional.imageSrc}
+                    alt={`Fotografía de ${professional.name}`}
+                    fill
+                    className="object-cover md:rounded-l-2xl"
+                    priority
+                  />
+                </motion.div>
               </div>
               
               {/* Contenido de Texto - Con scroll interno mejorado */}
