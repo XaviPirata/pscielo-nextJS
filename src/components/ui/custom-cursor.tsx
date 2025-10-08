@@ -7,15 +7,11 @@ export default function CustomCursor() {
     // Detectar si es móvil - Si es móvil, no hacer nada
     const isMobile = window.innerWidth < 769;
     if (isMobile) {
-      console.log('📱 Custom Cursor: Desactivado en móvil');
       return;
     }
-
-    console.log('🎯 Custom Cursor: Inicializando en desktop...');
     
     const root = document.querySelector('html');
     if (!root) {
-      console.error('❌ Custom Cursor: No se encontró el elemento html');
       return;
     }
 
@@ -28,8 +24,6 @@ export default function CustomCursor() {
     const follower = document.createElement('div');
     follower.classList.add('cursor', 'cursor__follower');
     root.appendChild(follower);
-
-    console.log('✅ Custom Cursor: Elementos creados correctamente');
 
     // Función para posicionar los cursores
     function setPosition(element: HTMLElement, e: MouseEvent) {
@@ -64,12 +58,8 @@ export default function CustomCursor() {
       element.addEventListener('mouseleave', handleMouseLeave);
     });
 
-    console.log('🎯 Custom Cursor: Event listeners agregados');
-
     // Cleanup function
     return () => {
-      console.log('🧹 Custom Cursor: Limpiando...');
-      
       root.removeEventListener('mousemove', handleMouseMove);
       
       interactiveElements.forEach(element => {

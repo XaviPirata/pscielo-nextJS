@@ -20,8 +20,6 @@ type TherapyModalProps = {
 };
 
 export const TherapyModal = ({ therapy, onClose }: TherapyModalProps) => {
-  console.log('🎯 TherapyModal: Rendering modal with therapy:', therapy?.title);
-
   // Bloquear scroll de la página de fondo cuando el modal está abierto
   useEffect(() => {
     if (therapy) {

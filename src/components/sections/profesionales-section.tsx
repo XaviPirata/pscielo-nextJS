@@ -12,8 +12,10 @@ const professionalsData = [
     name: "Lic. Rocio Del Cielo Barros",
     title: "Psicóloga clínica. Creadora y coordinadora general de PsCielo.",
     imageSrc: "/imagenes/professional-1.jpeg",
-    bio: `Psicóloga clínica con diez años de ejercicio en la práctica clínica, formada en evaluación, diagnóstico y terapias innovadoras.
-Licenciada en Psicología por la Universidad Nacional de Córdoba (MP 9911). 
+    bio: `MP 9911
+
+Psicóloga clínica con diez años de ejercicio en la práctica clínica, formada en evaluación, diagnóstico y terapias innovadoras.
+Licenciada en Psicología por la Universidad Nacional de Córdoba. 
 Máster Internacional en Neuropsicología Clínica Infanto-Juvenil. 
 Diplomada Internacional en Terapia Comportamental Contextual, con especialización en DBT, ACT y FAP. 
 Diplomada en Trastornos del Espectro Autista a lo largo del ciclo vital (Universidad Favaloro). 
@@ -32,20 +34,25 @@ Su recorrido se sostiene en la solidez académica, pero también en la convicci�
   },
   {
     name: "Lic.María Laura Teillagorry",
-    title: "Especialista en terapia cognitivo-conductual, terapias contextuales",
+    title: "Co-coordinadora de PsCielo.",
     imageSrc: "/imagenes/professional-3.jpeg",
-    bio: `Psicóloga.
-Acompaña a jóvenes y adultos en diferentes momentos de su recorrido vital, ofreciendo un espacio de escucha, cuidado y trabajo conjunto. Cada proceso es único, y por eso integra distintas herramientas terapéuticas que permiten adaptarse a las necesidades, los tiempos y los objetivos de cada persona.
+    bio: `MP 8716
 
-Su formación se basa en la terapia cognitivo-conductual, las terapias contextuales (ACT, FAP y DBT) y enfoques actualizados que brindan recursos concretos para afrontar dificultades emocionales, vinculares, transiciones vitales o situaciones de malestar.
+    Psicóloga con más de  diez años de ejercicio en la clínica, especialista en Terapia Cognitivo-Conductual y Terapias Contextuales. Acompaña a jóvenes y adultos en diferentes momentos vitales, ofreciendo un espacio de escucha, cuidado y trabajo conjunto. 
 
-Laura cree en la importancia de construir un vínculo terapéutico basado en el respeto, la confianza y el acompañamiento genuino, generando un espacio seguro donde cada persona pueda explorar, comprenderse y desplegar nuevas herramientas para su bienestar.`,
+    Integra recursos de la TCC, las terapias contextuales (ACT, FAP y DBT) y enfoques actualizados, adaptándose a las necesidades y objetivos de cada persona.
+
+    También cuenta con experiencia en procesos de orientación vocacional, acompañando a jóvenes en la toma de decisiones sobre sus proyectos de estudio y trabajo. Asimismo, ha trabajado en el abordaje de dinámicas familiares, y en el acompañamiento de duelos y crisis vitales, favoreciendo la comunicación, el entendimiento y la construcción de vínculos más saludables
+    Su práctica se centra en construir un vínculo terapéutico basado en el respeto, la confianza y el acompañamiento genuino, favoreciendo un espacio seguro para explorar, comprender y desplegar nuevas herramientas para el bienestar.
+`,
   },
   {
     name: "Lic. Andrea Ruiz",
     title: "Especialista en Mindfulness y Terapia de Aceptación",
     imageSrc: "/imagenes/professional-4.jpeg",
-    bio: `Psicóloga con diez años de ejercicio en la práctica clínica, formada en Terapia Cognitivo-Conductual y Terapias Contextuales (Mindfulness y ACT). 
+    bio: `MP 8569
+
+    Psicóloga con diez años de ejercicio en la práctica clínica, formada en Terapia Cognitivo-Conductual y Terapias Contextuales (Mindfulness y ACT). 
     Cuenta con formación en Neuropsicología Clínica, lo que le permite integrar recursos actualizados para la evaluación, el diagnóstico y la intervención en jóvenes y adultos.
     
     Posee amplia experiencia en procesos de evaluación psicológica y neuropsicológica, acompañando a personas con dificultades cognitivas, emocionales y conductuales, y brindando orientaciones precisas para el abordaje clínico y el fortalecimiento del bienestar.
@@ -57,7 +64,9 @@ Laura cree en la importancia de construir un vínculo terapéutico basado en el 
     name: "Lic. Wilson Batista",
     title: "Psicólogo clínico",
     imageSrc: "/imagenes/professional-2.jpeg",
-    bio: `Profesor (ISARM-Misiones) y Licenciado en Psicología (UNC) MP 15340. 
+    bio: `MP 15340
+    
+    Profesor (ISARM-Misiones) y Licenciado en Psicología (UNC). 
     Actualmente se especializa en terapias contextuales o de tercera ola, entre ellas la Terapia Dialéctico Conductual (DBT) y la Terapia de Aceptación y Compromiso (ACT). 
     Durante su formación de grado integró proyectos de investigación y docencia en el Instituto de Investigaciones Psicológicas (IIPsi-UNC), estudiando aspectos vinculados al rendimiento académico e inteligencia en estudiantes universitarios.
     
@@ -69,7 +78,9 @@ Laura cree en la importancia de construir un vínculo terapéutico basado en el 
     name: "Lic. Mauricio Palamedi Nazabal",
     title: "Psicólogo clínico.",
     imageSrc: "/imagenes/professional-5.jpeg",
-    bio: `Psicólogo con enfoque integrativo y experiencia en el acompañamiento de jóvenes y adultos en procesos de cambio y crecimiento personal. 
+    bio: `MP 13124
+    
+    Psicólogo con enfoque integrativo y experiencia en el acompañamiento de jóvenes y adultos en procesos de cambio y crecimiento personal. 
     Su trabajo se orienta a brindar un espacio empático, seguro y flexible, donde cada persona pueda sentirse escuchada, comprendida y contenida.
     
     Aborda problemáticas como ansiedad, ataques de pánico, duelos, separaciones, crisis vitales, terapia de pareja y adaptación a migraciones, siempre desde una perspectiva integral que considera tanto los aspectos emocionales como los contextuales de cada situación. 
