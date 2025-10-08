@@ -89,10 +89,8 @@ export default function AnimatedStars({
           anim.setSpeed(speed);
           animations.current.push(anim);
         }
-        
-        console.log('🌟 Stars loaded successfully:', count, 'stars');
       } catch (error) {
-        console.error('🌟 Error loading stars:', error);
+        // Error loading stars animation - silent fail
       }
     })();
 

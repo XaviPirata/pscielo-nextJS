@@ -13,10 +13,14 @@ export const metadata: Metadata = {
   title: "PsCielo",
   description: "Terapia psicológica online",
   icons: {
-    icon: "/imagenes/faviconSol.png",
-    shortcut: "/imagenes/faviconSol.png",
+    icon: [
+      { url: "/imagenes/favicon.ico", sizes: "any" },
+      { url: "/imagenes/faviconSol.png", type: "image/png" },
+    ],
+    shortcut: "/imagenes/favicon.ico",
     apple: "/imagenes/faviconSol.png",
   },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({

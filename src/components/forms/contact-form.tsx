@@ -63,7 +63,10 @@ export default function ContactForm() {
         );
       }
     } catch (err) {
-      console.error("Error de red:", err);
+      // Error de red - mantener en producción para monitoreo
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Error de red:", err);
+      }
       setFormMessage("Error de conexión. No se pudo contactar al servidor.");
     } finally {
       setSending(false);

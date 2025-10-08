@@ -95,15 +95,11 @@ const therapyCards: TherapyData[] = [
 export default function TherapyCards() {
   const [selectedTherapy, setSelectedTherapy] = useState<TherapyData | null>(null);
 
-  console.log('🎯 TherapyCards: Component rendered, selected therapy:', selectedTherapy?.title);
-
   const handleCardClick = (therapy: TherapyData) => {
-    console.log('🖱️ TherapyCards: Card clicked:', therapy.title);
     setSelectedTherapy(therapy);
   };
 
   const handleCloseModal = () => {
-    console.log('❌ TherapyCards: Closing modal');
     setSelectedTherapy(null);
   };
 

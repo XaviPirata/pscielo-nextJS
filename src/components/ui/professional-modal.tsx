@@ -32,6 +32,28 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
     return colors[hash % colors.length];
   };
 
+  // Función para procesar la bio y resaltar matrículas profesionales
+  const renderBioWithHighlights = (bioText: string) => {
+    // Regex para detectar MP seguido de números (ej: "MP 8716", "MP 9911", "MP15340")
+    const mpRegex = /(MP\s*\d+)/gi;
+    const parts = bioText.split(mpRegex);
+    
+    return parts.map((part, index) => {
+      // Si la parte coincide con el patrón de matrícula, la resaltamos
+      if (part.match(mpRegex)) {
+        return (
+          <span 
+            key={index}
+            className="inline-block font-heading font-bold bg-[#F9A8D4] text-gray-900 px-2 py-0.5 rounded-md mr-1"
+          >
+            {part.trim()}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
   // Bloquear scroll del body cuando el modal está abierto
   useEffect(() => {
     if (professional) {
@@ -121,7 +143,7 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
                     className="card-content whitespace-pre-line leading-relaxed text-sm
                                md:text-base"
                   >
-                    {professional.bio}
+                    {renderBioWithHighlights(professional.bio)}
                   </p>
                 </div>
               </div>
