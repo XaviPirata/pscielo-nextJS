@@ -74,7 +74,7 @@ export default function ContactForm() {
     <motion.form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="w-full space-y-4"
+      className="w-full space-y-4 relative z-20"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
@@ -82,8 +82,9 @@ export default function ContactForm() {
       {/* Anti-spam muy básico (honeypot) */}
       <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div>
+      <div className="relative z-20">
         <input
+          id="name"
           type="text"
           name="name"
           placeholder="Nombre"
@@ -92,8 +93,9 @@ export default function ContactForm() {
         />
       </div>
 
-      <div>
+      <div className="relative z-20">
         <input
+          id="email"
           type="email"
           name="email"
           placeholder="Email"
@@ -102,8 +104,9 @@ export default function ContactForm() {
         />
       </div>
 
-      <div>
+      <div className="relative z-20">
         <input
+          id="phone"
           type="tel"
           name="phone"
           placeholder="Teléfono (opcional)"
@@ -111,8 +114,9 @@ export default function ContactForm() {
         />
       </div>
 
-      <div>
+      <div className="relative z-20">
         <textarea
+          id="message"
           name="message"
           placeholder="Mensaje"
           required
