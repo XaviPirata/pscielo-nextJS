@@ -89,7 +89,7 @@ export default function AnimatedStars({
           anim.setSpeed(speed);
           animations.current.push(anim);
         }
-      } catch (error) {
+      } catch {
         // Error loading stars animation - silent fail
       }
     })();
