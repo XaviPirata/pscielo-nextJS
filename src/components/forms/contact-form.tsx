@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 type FormFields = {
@@ -16,14 +16,84 @@ export default function ContactForm() {
   const [sending, setSending] = useState(false);
   const [formMessage, setFormMessage] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
+  
+  // 🛡️ PROTECCIÓN ANTI-BOT #1: Timestamp de carga del formulario
+  const [formLoadTime] = useState<number>(Date.now());
+  
+  // 🛡️ PROTECCIÓN ANTI-BOT #2: Contador de interacciones
+  const [interactionCount, setInteractionCount] = useState(0);
+  
+  // 🛡️ PROTECCIÓN ANTI-BOT #3: Rate limiting en cliente
+  const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
+
+  // 🛡️ PROTECCIÓN ANTI-BOT #4: Token de sesión único
+  const [sessionToken] = useState<string>(() => {
+    return `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+  });
+
+  // Incrementar contador cuando el usuario interactúa con los campos
+  useEffect(() => {
+    const inputs = formRef.current?.querySelectorAll('input, textarea');
+    if (!inputs) return;
+
+    const handleInteraction = () => {
+      setInteractionCount(prev => prev + 1);
+    };
+
+    inputs.forEach(input => {
+      input.addEventListener('focus', handleInteraction);
+      input.addEventListener('input', handleInteraction);
+    });
+
+    return () => {
+      inputs.forEach(input => {
+        input.removeEventListener('focus', handleInteraction);
+        input.removeEventListener('input', handleInteraction);
+      });
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // 🛡️ VALIDACIÓN #1: Rate Limiting (máximo 1 envío cada 30 segundos)
+    const now = Date.now();
+    const timeSinceLastSubmit = now - lastSubmitTime;
+    if (timeSinceLastSubmit < 30000) { // 30 segundos
+      setFormMessage("Por favor, espera un momento antes de enviar otro mensaje.");
+      return;
+    }
+    
+    // 🛡️ VALIDACIÓN #2: Tiempo mínimo en la página (anti-bot rápido)
+    const timeOnPage = now - formLoadTime;
+    if (timeOnPage < 3000) { // Menos de 3 segundos = bot
+      setFormMessage("Por favor, completa el formulario con calma.");
+      return;
+    }
+    
+    // 🛡️ VALIDACIÓN #3: Mínimo de interacciones (debe haber interactuado al menos 3 veces)
+    if (interactionCount < 3) {
+      setFormMessage("Por favor, completa todos los campos del formulario.");
+      return;
+    }
+
     setSending(true);
     setFormMessage("");
 
     // Tomo valores del formulario
     const fd = new FormData(e.currentTarget);
+    
+    // 🛡️ VALIDACIÓN #4: Honeypot (campo oculto)
+    const honeypot = String(fd.get("company") || "");
+    if (honeypot) {
+      // Bot detectado - hacer como si se enviara pero no enviar nada
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setFormMessage("¡Mensaje enviado con éxito! Te responderemos a la brevedad.");
+      formRef.current?.reset();
+      setSending(false);
+      return;
+    }
+
     const data: FormFields = {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
@@ -31,8 +101,35 @@ export default function ContactForm() {
       message: String(fd.get("message") || ""),
     };
 
-    // Agrego el identificador de sitio
-    const payload = { ...data, source: "pscielo" };
+    // 🛡️ VALIDACIÓN #5: Validar longitud de campos (anti-spam)
+    if (data.name.length > 100 || data.message.length > 2000) {
+      setFormMessage("El mensaje es demasiado largo. Por favor, sé más conciso.");
+      setSending(false);
+      return;
+    }
+
+    // 🛡️ VALIDACIÓN #6: Detectar patrones sospechosos (URLs múltiples, caracteres repetidos)
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    const urlMatches = data.message.match(urlPattern) || [];
+    if (urlMatches.length > 2) {
+      setFormMessage("Mensaje sospechoso detectado. Por favor, evita múltiples enlaces.");
+      setSending(false);
+      return;
+    }
+
+    // Agrego el identificador de sitio + datos de seguridad
+    const payload = { 
+      ...data, 
+      source: "pscielo",
+      // 🛡️ ENVIAR DATOS DE SEGURIDAD AL BACKEND
+      _security: {
+        sessionToken,
+        timeOnPage,
+        interactionCount,
+        timestamp: now,
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'
+      }
+    };
 
     try {
       const res = await fetch(ENDPOINT, {
@@ -41,9 +138,7 @@ export default function ContactForm() {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-        // importantísimo: JSON plano
         body: JSON.stringify(payload),
-        // no enviamos cookies ni credenciales cruzadas
         credentials: "omit",
         cache: "no-store",
       });
@@ -51,8 +146,9 @@ export default function ContactForm() {
       if (res.ok) {
         setFormMessage("¡Mensaje enviado con éxito! Te responderemos a la brevedad.");
         formRef.current?.reset();
+        setLastSubmitTime(now); // Actualizar tiempo del último envío
+        setInteractionCount(0); // Resetear contador
       } else {
-        // intento leer el mensaje que devolvió la API (si lo hay)
         let apiMsg = "";
         try {
           const j = await res.json();
@@ -63,7 +159,6 @@ export default function ContactForm() {
         );
       }
     } catch (err) {
-      // Error de red - mantener en producción para monitoreo
       if (process.env.NODE_ENV === 'development') {
         console.error("Error de red:", err);
       }
@@ -82,8 +177,22 @@ export default function ContactForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
     >
-      {/* Anti-spam muy básico (honeypot) */}
-      <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" />
+      {/* 🛡️ HONEYPOT AVANZADO - Campo invisible para bots */}
+      <input 
+        type="text" 
+        name="company" 
+        className="absolute opacity-0 pointer-events-none" 
+        tabIndex={-1} 
+        autoComplete="off"
+        aria-hidden="true"
+      />
+      
+      {/* 🛡️ HONEYPOT #2 - Timestamp oculto */}
+      <input 
+        type="hidden" 
+        name="_timestamp" 
+        value={formLoadTime}
+      />
 
       <div className="relative z-20">
         <input
