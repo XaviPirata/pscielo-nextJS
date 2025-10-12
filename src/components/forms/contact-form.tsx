@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 type FormFields = {
   name: string;
@@ -16,6 +17,9 @@ export default function ContactForm() {
   const [sending, setSending] = useState(false);
   const [formMessage, setFormMessage] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
+  
+  // 🛡️ TURNSTILE: Token de verificación
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
   
   // 🛡️ PROTECCIÓN ANTI-BOT #1: Timestamp de carga del formulario
   const [formLoadTime] = useState<number>(Date.now());
@@ -55,6 +59,12 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // 🛡️ VALIDACIÓN #0: Cloudflare Turnstile Token (MÁXIMA PRIORIDAD)
+    if (!turnstileToken) {
+      setFormMessage("Por favor, completa la verificación de seguridad.");
+      return;
+    }
     
     // 🛡️ VALIDACIÓN #1: Rate Limiting (máximo 1 envío cada 30 segundos)
     const now = Date.now();
@@ -121,6 +131,8 @@ export default function ContactForm() {
     const payload = { 
       ...data, 
       source: "pscielo",
+      // 🛡️ CLOUDFLARE TURNSTILE TOKEN
+      turnstileToken,
       // 🛡️ ENVIAR DATOS DE SEGURIDAD AL BACKEND
       _security: {
         sessionToken,
@@ -148,6 +160,7 @@ export default function ContactForm() {
         formRef.current?.reset();
         setLastSubmitTime(now); // Actualizar tiempo del último envío
         setInteractionCount(0); // Resetear contador
+        setTurnstileToken(""); // Resetear token de Turnstile
       } else {
         let apiMsg = "";
         try {
@@ -237,12 +250,22 @@ export default function ContactForm() {
         />
       </div>
 
+      {/* 🛡️ CLOUDFLARE TURNSTILE - Verificación anti-bot */}
+      <div className="relative z-20 flex justify-center">
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token: string) => setTurnstileToken(token)}
+          onError={() => setTurnstileToken("")}
+          onExpire={() => setTurnstileToken("")}
+        />
+      </div>
+
       <div className="pt-1">
         <motion.button
           type="submit"
           whileHover={{ scale: sending ? 1 : 1.03 }}
-          className="inline-flex items-center px-6 py-3 rounded-lg font-semibold text-gray-900 bg-amber-200 hover:bg-pink-300 transition-all shadow"
-          disabled={sending}
+          className="inline-flex items-center px-6 py-3 rounded-lg font-semibold text-gray-900 bg-amber-200 hover:bg-pink-300 transition-all shadow disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={sending || !turnstileToken}
         >
           {sending ? "Enviando..." : "Enviar mensaje"}
         </motion.button>
