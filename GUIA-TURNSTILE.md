@@ -140,7 +140,7 @@ Guarda: `Ctrl + O`, Enter, `Ctrl + X`
 **⚠️ MUY IMPORTANTE**: Haz backup ANTES de tocar el archivo:
 
 ```bash
-cd /srv/psicodelcielo/shared
+cd /srv/psicodelcielo/api
 cp server.js server-BACKUP-$(date +%Y%m%d-%H%M%S).js
 ```
 
@@ -160,7 +160,7 @@ v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js
 2. Copia TODO el contenido (Ctrl + A, Ctrl + C)
 3. En tu VPS, abre el server.js:
    ```bash
-   nano /srv/psicodelcielo/shared/server.js
+   nano /srv/psicodelcielo/api/server.js
    ```
 4. Borra todo el contenido actual (Ctrl + K varias veces)
 5. Pega el código nuevo (botón derecho en PowerShell)
@@ -171,7 +171,7 @@ v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js
 Desde PowerShell en Windows:
 
 ```powershell
-scp v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js tu_usuario@psicodelcielo.com:/srv/psicodelcielo/shared/server.js
+scp v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js tu_usuario@psicodelcielo.com:/srv/psicodelcielo/api/server.js
 ```
 
 ### Paso 3.5: Reiniciar el servidor con PM2

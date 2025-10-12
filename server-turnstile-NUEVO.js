@@ -2,7 +2,8 @@
 // 🛡️ SERVIDOR BACKEND CON CLOUDFLARE TURNSTILE
 // ============================================================================
 // Este es el código ACTUALIZADO para el archivo server.js en tu VPS
-// Ubicación: /srv/psicodelcielo/shared/server.js
+// Ubicación del server.js: /srv/psicodelcielo/api/server.js
+// Ubicación del .env: /srv/psicodelcielo/shared/.env
 // ============================================================================
 
 const express = require("express");

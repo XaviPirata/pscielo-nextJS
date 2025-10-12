@@ -66,7 +66,7 @@ ssh tu_usuario@psicodelcielo.com
 
 ```bash
 # Ir al directorio del servidor
-cd /srv/psicodelcielo/shared
+cd /srv/psicodelcielo/api
 
 # Crear backup con fecha
 cp server.js server-BACKUP-$(date +%Y%m%d-%H%M%S).js
@@ -83,7 +83,7 @@ ls -lh server-BACKUP-*.js
 ### 2.3 Editar .env del servidor
 
 ```bash
-# Abrir .env con nano
+# Abrir .env con nano (el .env está en shared, NO en api)
 nano /srv/psicodelcielo/shared/.env
 ```
 
@@ -129,8 +129,8 @@ code v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js
 
 **En VPS (SSH):**
 ```bash
-# Abrir server.js con nano
-nano /srv/psicodelcielo/shared/server.js
+# Abrir server.js con nano (el server.js está en api)
+nano /srv/psicodelcielo/api/server.js
 ```
 
 1. Borra todo el contenido actual (`Ctrl + K` varias veces hasta que esté vacío)
@@ -142,7 +142,7 @@ nano /srv/psicodelcielo/shared/server.js
 **Desde Windows PowerShell:**
 ```powershell
 # Subir archivo al VPS (reemplaza tu_usuario)
-scp v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js tu_usuario@psicodelcielo.com:/srv/psicodelcielo/shared/server.js
+scp v:\WEBS\pscielo\pscielo-nextJS\server-turnstile-NUEVO.js tu_usuario@psicodelcielo.com:/srv/psicodelcielo/api/server.js
 ```
 
 ---
@@ -338,7 +338,7 @@ pm2 restart all
 ### Restaurar backup si algo sale mal
 ```bash
 ssh tu_usuario@psicodelcielo.com
-cd /srv/psicodelcielo/shared
+cd /srv/psicodelcielo/api
 cp server-BACKUP-20250125-143000.js server.js
 pm2 restart all
 ```

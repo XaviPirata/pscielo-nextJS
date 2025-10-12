@@ -277,7 +277,7 @@ v:\WEBS\pscielo\pscielo-nextJS\
 ANTES de tocar el servidor VPS:
 
 ```bash
-cp /srv/psicodelcielo/shared/server.js /srv/psicodelcielo/shared/server-BACKUP-$(date +%Y%m%d-%H%M%S).js
+cp /srv/psicodelcielo/api/server.js /srv/psicodelcielo/api/server-BACKUP-$(date +%Y%m%d-%H%M%S).js
 ```
 
 Esto crea un backup con fecha por si algo sale mal.
