@@ -253,7 +253,7 @@ export default function ContactForm() {
       {/* 🛡️ CLOUDFLARE TURNSTILE - Verificación anti-bot */}
       <div className="relative z-20 flex justify-center">
         <Turnstile
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          siteKey="0x4AAAAAAB6OCiGsQXF5yb3e"
           onSuccess={(token: string) => setTurnstileToken(token)}
           onError={() => setTurnstileToken("")}
           onExpire={() => setTurnstileToken("")}
