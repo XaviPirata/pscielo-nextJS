@@ -95,8 +95,15 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
           return w;
         });
 
-        const qsX = wrappers.map((w) => gsap.quickTo(w, "x", { damping: SPRING_DAMPING }));
-        const qsY = wrappers.map((w) => gsap.quickTo(w, "y", { damping: SPRING_DAMPING }));
+        // Usar gsap.to() en lugar de quickTo() para evitar el plugin de Inertia
+        const animatePosition = (wrapper: SVGGElement, x: number, y: number) => {
+          gsap.to(wrapper, {
+            x,
+            y,
+            duration: 0.5,
+            ease: "power2.out"
+          });
+        };
 
         /* posición del puntero en viewport */
         let mx = -9999, my = -9999;
@@ -117,11 +124,9 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
 
             if (dist < REPEL_RADIUS) {
               const f = ((REPEL_RADIUS - dist) / REPEL_RADIUS) * REPEL_STRENGTH;
-              qsX[i]((dx / dist) * f);
-              qsY[i]((dy / dist) * f);
+              animatePosition(w, (dx / dist) * f, (dy / dist) * f);
             } else {
-              qsX[i](0);
-              qsY[i](0);
+              animatePosition(w, 0, 0);
             }
           });
         });
