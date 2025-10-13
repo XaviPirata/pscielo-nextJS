@@ -143,6 +143,13 @@ export default function ContactForm() {
       }
     };
 
+    console.log("🔵 [PSCIELO] Enviando formulario:", {
+      endpoint: ENDPOINT,
+      source: payload.source,
+      hasTurnstileToken: !!turnstileToken,
+      tokenLength: turnstileToken.length
+    });
+
     try {
       const res = await fetch(ENDPOINT, {
         method: "POST",
@@ -155,7 +162,14 @@ export default function ContactForm() {
         cache: "no-store",
       });
 
+      console.log("🔵 [PSCIELO] Respuesta del servidor:", {
+        status: res.status,
+        statusText: res.statusText,
+        ok: res.ok
+      });
+
       if (res.ok) {
+        console.log("✅ [PSCIELO] Formulario enviado con éxito");
         setFormMessage("¡Mensaje enviado con éxito! Te responderemos a la brevedad.");
         formRef.current?.reset();
         setLastSubmitTime(now); // Actualizar tiempo del último envío
@@ -166,12 +180,18 @@ export default function ContactForm() {
         try {
           const j = await res.json();
           apiMsg = j?.message || "";
+          console.error("❌ [PSCIELO] Error del servidor:", {
+            status: res.status,
+            message: apiMsg,
+            fullResponse: j
+          });
         } catch {}
         setFormMessage(
           apiMsg || "Hubo un problema al enviar el formulario. Por favor, inténtalo de nuevo."
         );
       }
     } catch (err) {
+      console.error("❌ [PSCIELO] Error de red:", err);
       if (process.env.NODE_ENV === 'development') {
         console.error("Error de red:", err);
       }
