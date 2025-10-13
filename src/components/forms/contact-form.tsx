@@ -60,11 +60,17 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    console.log("🔵 [DEBUG] Turnstile Token:", turnstileToken);
+    console.log("🔵 [DEBUG] Token length:", turnstileToken?.length || 0);
+    
     // 🛡️ VALIDACIÓN #0: Cloudflare Turnstile Token (MÁXIMA PRIORIDAD)
     if (!turnstileToken) {
+      console.log("❌ [DEBUG] NO HAY TOKEN - Bloqueado");
       setFormMessage("Por favor, completa la verificación de seguridad.");
       return;
     }
+    
+    console.log("✅ [DEBUG] Token OK - Continuando...");
     
     // 🛡️ VALIDACIÓN #1: Rate Limiting (máximo 1 envío cada 30 segundos)
     const now = Date.now();
