@@ -9,7 +9,6 @@ const BIRD_SCALE      = 0.45;
 const BIRD_SPEED      = 0.45;
 const REPEL_RADIUS    = 130;
 const REPEL_STRENGTH  = 160;
-const SPRING_DAMPING  = 0.18;
 /* ──────────────────────────────────────────────── */
 
 type Props = {
@@ -114,7 +113,7 @@ export default function FlyingBirds({ zIndexClass = "z-0" }: Props) {
         /* loop de física */
         gsap.ticker.add(() => {
 
-          wrappers.forEach((w, i) => {
+          wrappers.forEach((w) => {
             const br = w.getBoundingClientRect();
             const cx = br.left + br.width / 2;
             const cy = br.top  + br.height / 2;
