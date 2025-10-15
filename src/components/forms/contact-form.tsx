@@ -156,14 +156,18 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        // 🚀 Notificar a Google Tag Manager
+        // 🚀 Notificar a Google Tag Manager con TODAS las variables
         if (typeof window !== 'undefined') {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).dataLayer = (window as any).dataLayer || [];
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).dataLayer.push({
             event: "form_submit",
+            form_id: "contact-form-pscielo",
             form_name: "Contacto PsCielo",
+            form_target: "_self",
+            form_text: "Enviando...",
+            form_url: window.location.href,
             form_status: "success",
             timestamp: Date.now(),
           });
@@ -196,6 +200,7 @@ export default function ContactForm() {
 
   return (
     <motion.form
+      id="contact-form-pscielo"
       ref={formRef}
       onSubmit={handleSubmit}
       className="w-full space-y-4 relative z-20"
