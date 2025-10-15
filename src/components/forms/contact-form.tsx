@@ -157,13 +157,17 @@ export default function ContactForm() {
 
       if (res.ok) {
         // 🚀 Notificar a Google Tag Manager
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        (window as any).dataLayer.push({
-          event: "form_submit",
-          form_name: "Contacto PsCielo",
-          form_status: "success",
-          timestamp: Date.now(),
-        });
+        if (typeof window !== 'undefined') {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).dataLayer.push({
+            event: "form_submit",
+            form_name: "Contacto PsCielo",
+            form_status: "success",
+            timestamp: Date.now(),
+          });
+        }
 
         setFormMessage("¡Mensaje enviado con éxito! Te responderemos a la brevedad.");
         formRef.current?.reset();
