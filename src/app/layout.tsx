@@ -10,8 +10,20 @@ import { cn } from "@/lib/utils";
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: "PsCielo",
-  description: "Terapia psicológica online",
+  title: "PsCielo - Terapia Psicológica Online | Profesional y Personalizada",
+  description: "Psicología online y presencial en Córdoba. Terapia individual, de pareja y familiar. Primera consulta gratuita. Agenda tu sesión hoy.",
+  keywords: ["psicología", "terapia online", "psicólogo Córdoba", "terapia individual", "salud mental"],
+  authors: [{ name: "PsCielo" }],
+  creator: "PsCielo",
+  publisher: "PsCielo",
+  openGraph: {
+    title: "PsCielo - Terapia Psicológica Online",
+    description: "Psicología online y presencial. Primera consulta gratuita.",
+    url: "https://www.pscielo.com",
+    siteName: "PsCielo",
+    locale: "es_AR",
+    type: "website",
+  },
   icons: {
     icon: [
       { url: "/imagenes/favicon.ico", sizes: "any" },
@@ -33,6 +45,14 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        {/* DNS Prefetch y Preconnect para recursos externos */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
