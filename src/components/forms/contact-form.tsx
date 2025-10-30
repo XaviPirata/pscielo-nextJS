@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Turnstile } from "@marsidev/react-turnstile";
 
@@ -20,6 +20,10 @@ export default function ContactForm() {
   
   // 🛡️ TURNSTILE: Token de verificación
   const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [turnstileStatus, setTurnstileStatus] = useState<string>("Inicializando verificación de seguridad...");
+  const [turnstileWidgetKey, setTurnstileWidgetKey] = useState(0);
+  const turnstileRetryTimeout = useRef<number | null>(null);
   
   // 🛡️ PROTECCIÓN ANTI-BOT #1: Timestamp de carga del formulario
   const [formLoadTime] = useState<number>(Date.now());
@@ -34,6 +38,30 @@ export default function ContactForm() {
   const [sessionToken] = useState<string>(() => {
     return `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
   });
+
+  // Preconexión al dominio de Cloudflare para acelerar la carga del widget
+  useEffect(() => {
+    const ensureLink = (rel: string, href: string) => {
+      if (typeof document === "undefined") return;
+      const selector = `link[rel="${rel}"][href="${href}"]`;
+      if (!document.head.querySelector(selector)) {
+        const link = document.createElement("link");
+        link.rel = rel;
+        link.href = href;
+        document.head.appendChild(link);
+      }
+    };
+
+    ensureLink("preconnect", "https://challenges.cloudflare.com");
+    ensureLink("dns-prefetch", "https://challenges.cloudflare.com");
+
+    return () => {
+      if (turnstileRetryTimeout.current) {
+        window.clearTimeout(turnstileRetryTimeout.current);
+        turnstileRetryTimeout.current = null;
+      }
+    };
+  }, []);
 
   // Incrementar contador cuando el usuario interactúa con los campos
   useEffect(() => {
@@ -57,12 +85,25 @@ export default function ContactForm() {
     };
   }, []);
 
+  const scheduleWidgetReload = useCallback((delay = 1500) => {
+    if (turnstileRetryTimeout.current) {
+      window.clearTimeout(turnstileRetryTimeout.current);
+    }
+    turnstileRetryTimeout.current = window.setTimeout(() => {
+      setTurnstileToken("");
+      setTurnstileReady(false);
+      setTurnstileStatus("Reintentando verificación de seguridad...");
+      setTurnstileWidgetKey(prev => prev + 1);
+      turnstileRetryTimeout.current = null;
+    }, delay);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     // 🛡️ VALIDACIÓN #0: Cloudflare Turnstile Token (MÁXIMA PRIORIDAD)
     if (!turnstileToken) {
-      setFormMessage("Por favor, completa la verificación de seguridad.");
+      setFormMessage("Por favor, espera un momento mientras validamos tu sesión de seguridad.");
       return;
     }
     
@@ -178,6 +219,9 @@ export default function ContactForm() {
         setLastSubmitTime(now);
         setInteractionCount(0);
         setTurnstileToken("");
+        setTurnstileReady(false);
+        setTurnstileStatus("Validación completada. Preparando una nueva sesión de seguridad...");
+        scheduleWidgetReload(1000);
       } else {
         let apiMsg = "";
         try {
@@ -197,6 +241,29 @@ export default function ContactForm() {
       setSending(false);
     }
   };
+
+  const handleTurnstileSuccess = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setTurnstileReady(true);
+    setTurnstileStatus("Verificación completada correctamente.");
+  }, []);
+
+  const handleTurnstileError = useCallback((errorCode?: string) => {
+    if (process.env.NODE_ENV === "development") {
+      console.error("Turnstile error", errorCode);
+    }
+    setTurnstileToken("");
+    setTurnstileReady(false);
+    setTurnstileStatus("No pudimos validar la seguridad. Reintentando...");
+    scheduleWidgetReload();
+  }, [scheduleWidgetReload]);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+    setTurnstileReady(false);
+    setTurnstileStatus("La verificación caducó. Renovando token...");
+    scheduleWidgetReload(500);
+  }, [scheduleWidgetReload]);
 
   return (
     <motion.form
@@ -269,13 +336,47 @@ export default function ContactForm() {
       </div>
 
       {/* 🛡️ CLOUDFLARE TURNSTILE - Verificación anti-bot */}
-      <div className="relative z-20 flex justify-center">
-        <Turnstile
-          siteKey="0x4AAAAAAB6OCiGsQXF5yb3e"
-          onSuccess={(token: string) => setTurnstileToken(token)}
-          onError={() => setTurnstileToken("")}
-          onExpire={() => setTurnstileToken("")}
-        />
+      <div className="relative z-20 flex flex-col items-center gap-3 text-center">
+        <div className="relative w-full max-w-[320px]">
+          {!turnstileReady && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/80 p-4 text-sm text-gray-600 shadow-sm">
+              <span className="mb-2 inline-flex h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-b-transparent" aria-hidden="true" />
+              {turnstileStatus}
+            </div>
+          )}
+          <Turnstile
+            key={turnstileWidgetKey}
+            siteKey="0x4AAAAAAB6OCiGsQXF5yb3e"
+            onSuccess={handleTurnstileSuccess}
+            onError={handleTurnstileError}
+            onExpire={handleTurnstileExpire}
+            onWidgetLoad={() => {
+              setTurnstileStatus("Listo para verificar seguridad.");
+              setTurnstileReady(true);
+            }}
+            options={{
+              appearance: "always",
+              retry: "auto",
+              retryInterval: 3000,
+              refreshExpired: "auto",
+              refreshTimeout: "auto",
+              feedbackEnabled: false,
+              theme: "auto",
+              size: "normal"
+            }}
+            scriptOptions={{
+              defer: false,
+              async: true,
+              appendTo: "head",
+              onError: () => handleTurnstileError("script-load"),
+              id: "cf-turnstile-script"
+            }}
+            className={`transition-opacity duration-300 ${turnstileReady ? "opacity-100" : "opacity-0"}`}
+          />
+        </div>
+        <p className="text-sm" aria-live="polite">
+          {turnstileStatus}
+        </p>
       </div>
 
       <div className="pt-1">
