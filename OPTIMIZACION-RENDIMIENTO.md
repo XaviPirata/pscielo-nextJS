@@ -1,53 +1,186 @@
 # 🚀 Optimización de Rendimiento - PsCielo
 
-## 🎯 Problema Resuelto
+## 📊 ESTRATEGIA FINAL (31 Oct 2025) - VIDEO + PERFORMANCE
 
-El sitio tenía **rendimiento bajo en móviles** debido a:
-- ❌ Video pesado cargando primero (LCP lento)
-- ❌ JavaScript bloqueante
-- ❌ Sin optimización de imágenes
-- ❌ Sin preconnect a recursos externos
+### 🎯 Objetivo: Mantener el video SIN sacrificar métricas
+
+**Problema**: Los videos son esenciales para conversión, pero bloquean el LCP.
+**Solución**: Técnica de "Video Facade" - Imagen primero, video después.
 
 ---
 
-## ✅ Optimizaciones Aplicadas
+## ✅ Hero Section - Versión Optimizada CON VIDEO
 
-### 1️⃣ **Hero Section - Video Optimizado**
+**Archivo**: `src/components/sections/hero-section.tsx`
 
-**ANTES:**
+### Estrategia Implementada:
+
+#### 1️⃣ **LCP Rápido**: Posters cargan PRIMERO
 ```tsx
-<video
-  autoPlay
-  loop
-  muted
-  playsInline
-  preload="auto"  ❌ Carga TODO el video antes de mostrar
-  className="..."
->
-  <source src="video.mp4" type="video/mp4" />
-</video>
-```
-
-**AHORA:**
-```tsx
-{/* Imagen poster para LCP instantáneo */}
 <Image
   src={posterHorizontal}
-  alt="PsCielo"
   fill
-  priority  ✅ Carga INMEDIATA
+  priority  // ← Next.js carga esto INMEDIATAMENTE
   quality={75}
-  className="..."
-  sizes="100vw"
+  className="object-cover hidden md:block"
 />
+```
+✅ Google mide el LCP en esta imagen
+✅ Usuario ve contenido instantáneamente
 
-{/* Video carga DESPUÉS */}
-<video
-  autoPlay
-  loop
-  muted
-  playsInline
-  preload="metadata"  ✅ Solo metadata, no todo el video
+#### 2️⃣ **Video carga DESPUÉS**: Sin bloquear el LCP
+```tsx
+useEffect(() => {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      setVideoLoaded(true);  // Video se renderiza cuando el navegador está idle
+    });
+  }
+}, []);
+```
+✅ No bloquea el renderizado inicial
+✅ Aprovecha los tiempos muertos del navegador
+
+#### 3️⃣ **Videos optimizados**: Cloudinary con compresión
+```tsx
+// q_auto:low = calidad ajustada automáticamente (menor peso)
+const videoURL = "...cloudinary.com/video/upload/q_auto:low,f_auto/...mp4";
+```
+✅ Menor peso del archivo
+✅ Formato adaptativo (webm si el navegador soporta)
+
+#### 4️⃣ **preload="none"**: Video NO se descarga hasta reproducirse
+```tsx
+<video preload="none" ... >
+```
+✅ Ahorra ancho de banda
+✅ Solo descarga cuando es necesario
+
+---
+
+## 📈 Métricas Esperadas
+
+| Métrica | Estrategia | Resultado Esperado |
+|---------|-----------|-------------------|
+| **LCP** | Imagen con `priority` | ~1.5-2.5s ✅ |
+| **FCP** | Sin JavaScript bloqueante | ~0.8-1.2s ✅ |
+| **TBT** | Video carga en idle | <200ms ✅ |
+| **CLS** | Sin cambios de layout | 0 ✅ |
+
+### Por qué DEBERÍA funcionar:
+
+1. **PageSpeed mide el poster** (no el video) como LCP
+2. **El video NO bloquea** la carga inicial
+3. **Usuario ve algo inmediatamente** (poster)
+4. **Video aparece sin saltos** (mismo src en poster)
+5. **Graceful degradation** si el video falla (poster se queda)
+
+---
+
+## 🔧 Optimizaciones Aplicadas
+
+### ✅ Videos
+- Calidad: `q_auto:low` (Cloudinary ajusta automáticamente)
+- Formato: `f_auto` (webm para Chrome, mp4 para Safari)
+- Preload: `none` (no descarga hasta play)
+- Poster: Frame 0 del video (transición invisible)
+
+### ✅ Imágenes (Posters)
+- Next.js Image con `priority`
+- Quality: 75 (equilibrio peso/calidad)
+- Formato: JPG optimizado de Cloudinary
+- Sizes: 100vw (ocupa toda la pantalla)
+
+### ✅ JavaScript
+- `requestIdleCallback` para cargar video
+- Fallback a setTimeout(100ms) para navegadores viejos
+- No hay estados complejos
+- No hay transiciones pesadas
+
+---
+
+## ⚠️ Reglas para NO Romper el Sitio
+
+1. **NUNCA cargar video con `priority`** (solo imágenes)
+2. **NUNCA usar `preload="auto"`** en videos (bloquea LCP)
+3. **SIEMPRE tener poster** como fallback
+4. **MEDIR ANTES y DESPUÉS** de cada cambio
+5. **PROBAR EN MOBILE REAL** antes de dar por hecho
+
+---
+
+## 🛠️ Testing Checklist
+
+- [ ] PageSpeed Mobile > 70
+- [ ] LCP < 2.5s (debe aparecer en reporte)
+- [ ] Video se reproduce correctamente
+- [ ] Poster visible mientras carga video
+- [ ] Navegación funciona
+- [ ] Formulario funciona
+- [ ] Turnstile se carga
+- [ ] ScrollIndicator visible
+
+---
+
+## 🔄 Si los Videos Siguen Siendo Problema
+
+### Plan B: Lazy-load de videos más agresivo
+```tsx
+// Cargar video solo cuando el usuario haga scroll o después de 5s
+useEffect(() => {
+  const timer = setTimeout(() => setVideoLoaded(true), 5000);
+  
+  const handleScroll = () => {
+    setVideoLoaded(true);
+    window.removeEventListener('scroll', handleScroll);
+  };
+  
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+    clearTimeout(timer);
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+```
+
+### Plan C: Videos solo en desktop
+```tsx
+{videoLoaded && (
+  <video className="hidden md:block" ... />  // Solo desktop
+)}
+// Mobile solo muestra imagen estática
+```
+
+---
+
+## 🎓 Lecciones Aprendidas
+
+1. **"Performance Y Conversión"** no son opuestos
+   - Se puede tener ambos con técnicas de carga inteligente
+   
+2. **"Facade Pattern"** para recursos pesados
+   - Mostrar placeholder → Cargar recurso pesado en background
+   
+3. **"requestIdleCallback"** es tu amigo
+   - Usar tiempos muertos del navegador para cargas secundarias
+   
+4. **"preload='none'"** en videos
+   - Esencial para no bloquear el LCP
+
+---
+
+## 📝 Log de Cambios
+
+### 31 Oct 2025 - v3.0 VIDEO FACADE
+- ✅ **RESTAURADO**: Videos del hero
+- ✅ **OPTIMIZADO**: Carga diferida con requestIdleCallback
+- ✅ **MEJORADO**: preload="none" + q_auto:low
+- ✅ **MANTENIDO**: Posters con priority para LCP
+
+### 31 Oct 2025 - v2.0 (Revertido)
+- ❌ Eliminación de videos → Mala UX, no aceptable
+
+---
   poster={posterHorizontal}  ✅ Placeholder mientras carga
   className="..."
 >
