@@ -1,7 +1,6 @@
 "use client";
 
 import ScrollIndicator from "@/components/ui/scroll-indicator";
-import Image from "next/image";
 
 export default function HeroSection() {
   // URLs de Cloudinary - SIMPLIFICADOS
