@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import FloatingDock from "@/components/ui/floating-dock";
-import MobileMenu from "@/components/ui/mobile-menu";
-import SmoothScrollManager from "@/components/utils/smooth-scroll-manager";
-import WhatsAppButton from "@/components/ui/whatsapp-button";
-import CustomCursor from "@/components/ui/custom-cursor";
-import { cn } from "@/lib/utils";
 import Script from 'next/script';
+import dynamic from "next/dynamic";
+
+// Lazy load componentes no críticos - SIN ssr: false en layout
+const FloatingDock = dynamic(() => import("@/components/ui/floating-dock"));
+const MobileMenu = dynamic(() => import("@/components/ui/mobile-menu"));
+const SmoothScrollManager = dynamic(() => import("@/components/utils/smooth-scroll-manager"));
+const WhatsAppButton = dynamic(() => import("@/components/ui/whatsapp-button"));
+const CustomCursor = dynamic(() => import("@/components/ui/custom-cursor"));
+
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "PsCielo - Terapia Psicológica Online | Profesional y Personalizada",
@@ -56,7 +60,7 @@ export default function RootLayout({
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
