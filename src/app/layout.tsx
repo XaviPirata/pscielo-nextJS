@@ -22,11 +22,26 @@ export const metadata: Metadata = {
   publisher: "PsCielo",
   openGraph: {
     title: "PsCielo - Terapia Psicológica Online",
-    description: "Psicología online y presencial. Agenda tu consulta HOY.",
+    description: "Psicología online y presencial. Agenda tu sesión hoy.",
     url: "https://www.pscielo.com",
     siteName: "PsCielo",
     locale: "es_AR",
     type: "website",
+    images: [
+      {
+        url: "https://www.pscielo.com/imagenes/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "PsCielo - Terapia Psicológica Online",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PsCielo - Terapia Psicológica Online",
+    description: "Psicología online y presencial. Agenda tu sesión hoy.",
+    images: ["https://www.pscielo.com/imagenes/og-image.jpg"],
   },
   icons: {
     icon: [
