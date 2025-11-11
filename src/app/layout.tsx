@@ -37,6 +37,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+  appLinks: {
+    web: {
+      url: "https://www.pscielo.com",
+      should_fallback: true,
+    },
+  },
   twitter: {
     card: "summary_large_image",
     title: "PsCielo - Terapia Psicológica Online",
@@ -64,6 +70,24 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        {/* Meta tags adicionales para Open Graph */}
+        <meta property="og:title" content="PsCielo - Terapia Psicológica Online" />
+        <meta property="og:description" content="Psicología online y presencial. Agenda tu sesión hoy." />
+        <meta property="og:image" content="https://www.pscielo.com/imagenes/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="PsCielo - Terapia Psicológica Online" />
+        <meta property="og:url" content="https://www.pscielo.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="PsCielo" />
+        <meta property="og:locale" content="es_AR" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="PsCielo - Terapia Psicológica Online" />
+        <meta name="twitter:description" content="Psicología online y presencial. Agenda tu sesión hoy." />
+        <meta name="twitter:image" content="https://www.pscielo.com/imagenes/og-image.jpg" />
+        
         {/* DNS Prefetch y Preconnect para recursos externos */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
