@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "PsCielo - Terapia Psicológica Online | Profesional y Personalizada",
-  description: "Psicología online y presencial en Córdoba. Terapia individual, de pareja y familiar. Primera consulta gratuita. Agenda tu sesión hoy.",
+  description: "Psicología online y presencial en Córdoba. Terapia individual, de pareja y familiar. Agenda tu sesión hoy.",
   keywords: ["psicología", "terapia online", "psicólogo Córdoba", "terapia individual", "salud mental"],
   authors: [{ name: "PsCielo" }],
   creator: "PsCielo",
