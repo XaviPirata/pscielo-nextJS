@@ -26,7 +26,7 @@ export default function ContactForm() {
   const turnstileRetryTimeout = useRef<number | null>(null);
   
   // 🛡️ PROTECCIÓN ANTI-BOT #1: Timestamp de carga del formulario
-  const [formLoadTime] = useState<number>(Date.now());
+  const [formLoadTime, setFormLoadTime] = useState<number>(0);
   
   // 🛡️ PROTECCIÓN ANTI-BOT #2: Contador de interacciones
   const [interactionCount, setInteractionCount] = useState(0);
@@ -35,9 +35,13 @@ export default function ContactForm() {
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
 
   // 🛡️ PROTECCIÓN ANTI-BOT #4: Token de sesión único
-  const [sessionToken] = useState<string>(() => {
-    return `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-  });
+  const [sessionToken, setSessionToken] = useState<string>('');
+
+  // Inicializar valores solo en el cliente para evitar hydration mismatch
+  useEffect(() => {
+    setFormLoadTime(Date.now());
+    setSessionToken(`${Date.now()}-${Math.random().toString(36).substring(2, 15)}`);
+  }, []);
 
   // Preconexión al dominio de Cloudflare para acelerar la carga del widget
   useEffect(() => {
@@ -274,6 +278,7 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
+      suppressHydrationWarning
     >
       {/* 🛡️ HONEYPOT AVANZADO - Campo invisible para bots */}
       <input 
@@ -290,6 +295,7 @@ export default function ContactForm() {
         type="hidden" 
         name="_timestamp" 
         value={formLoadTime}
+        suppressHydrationWarning
       />
 
       <div className="relative z-20">

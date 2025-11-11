@@ -78,9 +78,10 @@ export default function ContactoSection() {
             
             {/* Mapa */}
             <iframe
-              title="Mapa"
-              src="https://maps.google.com/maps?q=Independencia%20366%20C%C3%B3rdoba%20Argentina&z=16&output=embed"
+              title="Mapa - Pscielo Espacio Terapeutico"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.78283517955!2d-64.19071901480037!3d-31.420108830047457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432a3c1ad9e1df9%3A0xc2fa3685dd62635e!2sPscielo%20-%20Espacio%20Terapeutico!5e0!3m2!1ses!2sar!4v1762893367418!5m2!1ses!2sar"
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               className="w-full h-48 sm:h-56 md:h-64 rounded-2xl grayscale transition-all duration-500 hover:grayscale-0 border-none relative z-10"
               allowFullScreen
             ></iframe>
