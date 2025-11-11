@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   publisher: "PsCielo",
   openGraph: {
     title: "PsCielo - Terapia Psicológica Online",
-    description: "Psicología online y presencial. Primera consulta gratuita.",
+    description: "Psicología online y presencial. Agenda tu consulta HOY.",
     url: "https://www.pscielo.com",
     siteName: "PsCielo",
     locale: "es_AR",
