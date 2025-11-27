@@ -68,7 +68,7 @@ export default function QuienesSomosSection() {
               </p>
 
               <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
-                Trabajamos desde una psicología basada en la evidencia, integrando la terapia cognitivo-conductual y los enfoques contextuales —como ACT, FAP, RO-DBT y DBT— con una mirada ética y contemporánea.
+                Trabajamos desde una psicología plural y basada en la evidencia. Nuestro equipo integra enfoques contextuales (ACT, FAP, RO-DBT, DBT), perspectivas cognitivo-conductuales y abordajes integrativos, entendiendo que cada marco ofrece herramientas valiosas según la persona y su historia. Creemos en una clínica flexible y contemporánea, donde distintas miradas dialogan entre sí para construir intervenciones sensibles, éticas y ajustadas a cada proceso.
               </p>
 
               <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
