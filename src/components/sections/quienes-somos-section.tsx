@@ -62,24 +62,24 @@ export default function QuienesSomosSection() {
               </motion.h2>
             </AnimatedGradientText>
             
-            <div className="space-y-4 md:space-y-6">
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
+            <div className="space-y-3 md:space-y-4">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-muted-foreground px-2 md:px-0 leading-relaxed">
                 Pscielo es más que un centro terapéutico: es un espacio que nace del deseo de acompañar vidas con profundidad, rigor y sensibilidad. Un proyecto que entrelaza ciencia y humanidad, clínica y subjetividad, técnica y presencia.
               </p>
 
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-muted-foreground px-2 md:px-0 leading-relaxed">
                 Trabajamos desde una psicología plural y basada en la evidencia. Nuestro equipo integra enfoques contextuales (ACT, FAP, RO-DBT, DBT), perspectivas cognitivo-conductuales y abordajes integrativos, entendiendo que cada marco ofrece herramientas valiosas según la persona y su historia. Creemos en una clínica flexible y contemporánea, donde distintas miradas dialogan entre sí para construir intervenciones sensibles, éticas y ajustadas a cada proceso.
               </p>
 
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-muted-foreground px-2 md:px-0 leading-relaxed">
                 Nuestra práctica se funda en el encuentro, en el cuidado real por quienes consultan, y en una escucha que reconoce la complejidad de cada experiencia.
               </p>
 
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-muted-foreground px-2 md:px-0 leading-relaxed">
                 Creemos en una psicoterapia que no impone moldes, sino que habilita caminos. Que no sólo busca aliviar el sufrimiento, sino también acompañar la construcción de una vida con sentido, incluso en medio de la incertidumbre.
               </p>
 
-              <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground px-2 md:px-0">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-muted-foreground px-2 md:px-0 leading-relaxed">
                 Desde PsCielo brindamos atención psicológica individual . Tambien contamos con profesionales formados en procesos de evaluación neuropsicológica y evaluación psicológica para personas neurodivergentes, además de talleres grupales que abordan temas como la comunicación afectiva, la expresión emocional, el mindfulness y el acompañamiento en procesos de salud y enfermedad (psicooncología).
               </p>
 
