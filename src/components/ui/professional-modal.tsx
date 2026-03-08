@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import Portal from './portal'; // Importar el Portal
@@ -10,6 +9,7 @@ type Professional = {
   name: string;
   title: string;
   imageSrc: string;
+  imageWebp?: string;
   bio: string;
 };
 
@@ -37,12 +37,12 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
     // Regex para detectar MP seguido de números (ej: "MP 8716", "MP 9911", "MP15340")
     const mpRegex = /(MP\s*\d+)/gi;
     const parts = bioText.split(mpRegex);
-    
+
     return parts.map((part, index) => {
       // Si la parte coincide con el patrón de matrícula, la resaltamos
       if (part.match(mpRegex)) {
         return (
-          <span 
+          <span
             key={index}
             className="inline-block font-heading font-bold bg-[#F9A8D4] text-gray-900 px-2 py-0.5 rounded-md mr-1"
           >
@@ -87,7 +87,10 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           >
             <motion.div
-              layoutId={`card-container-${professional.name}`}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
               // Contenido del Modal: Layout responsivo - Mobile más angosto y mejor scroll
               className="relative bg-card rounded-2xl shadow-2xl flex flex-col w-full 
@@ -102,30 +105,31 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
               >
                 <X size={18} className="md:size-6" />
               </button>
-              
+
               {/* Imagen - Solo visible en desktop - Transición de Warm Sepia Rose a color */}
               <div className="relative w-full h-48 flex-shrink-0 hidden
                               md:block md:w-1/3 md:h-full overflow-hidden">
                 <motion.div
-                  initial={{ 
-                    filter: "sepia(60%) saturate(70%) hue-rotate(-15deg) brightness(105%)" 
+                  initial={{
+                    filter: "sepia(60%) saturate(70%) hue-rotate(-15deg) brightness(105%)"
                   }}
-                  animate={{ 
-                    filter: "sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%)" 
+                  animate={{
+                    filter: "sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%)"
                   }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   className="w-full h-full"
                 >
-                  <Image
-                    src={professional.imageSrc}
-                    alt={`Fotografía de ${professional.name}`}
-                    fill
-                    className="object-cover md:rounded-l-2xl"
-                    priority
-                  />
+                  <picture>
+                    {professional.imageWebp && <source srcSet={professional.imageWebp} type="image/webp" />}
+                    <img
+                      src={professional.imageSrc}
+                      alt={`Fotografía de ${professional.name}`}
+                      className="absolute inset-0 w-full h-full object-cover md:rounded-l-2xl"
+                    />
+                  </picture>
                 </motion.div>
               </div>
-              
+
               {/* Contenido de Texto - Con scroll interno mejorado */}
               <div className="flex-1 p-4 overflow-y-auto overscroll-contain
                               md:p-8">
@@ -139,7 +143,7 @@ export const ProfessionalModal = ({ professional, onClose }: ProfessionalModalPr
                   {professional.title}
                 </p>
                 <div className="prose dark:prose-invert text-foreground/80 max-w-none">
-                  <p 
+                  <p
                     className="card-content whitespace-pre-line leading-relaxed text-sm
                                md:text-base"
                   >

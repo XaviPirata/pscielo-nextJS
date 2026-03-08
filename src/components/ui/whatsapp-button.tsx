@@ -11,13 +11,25 @@ export default function WhatsAppButton() {
     setIsMounted(true);
   }, []);
 
-  // TODO: Reemplaza este número con tu número de WhatsApp real, incluyendo el código de país sin el símbolo '+' o ceros iniciales.
+  // TODO: Reemplaza este número con tu número de WhatsApp real.
   const phoneNumber = "5493518148668";
   const message = "Hola, me gustaría saber más sobre sus servicios.";
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
     message
   )}`;
+
+  // Función de tracking para GTM
+  const handleWhatsAppClick = () => {
+    if (typeof window !== "undefined" && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: "whatsapp_click",
+        click_url: whatsappUrl,
+        click_text: "WhatsApp Button",
+        timestamp: Date.now(),
+      });
+    }
+  };
 
   // No renderizar hasta que el componente esté montado en el cliente
   if (!isMounted) {
@@ -29,6 +41,7 @@ export default function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleWhatsAppClick}
       className="fixed right-4 bottom-8 md:bottom-6 md:right-6 z-50 bg-[#25D366] hover:bg-[#128C7E] transition-colors duration-300 rounded-full p-2 md:p-3 shadow-lg flex items-center justify-center text-white"
       initial={{ scale: 0, y: 100 }}
       animate={{

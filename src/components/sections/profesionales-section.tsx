@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ProfessionalCard } from "@/components/content/professional-card";
 import { ProfessionalModal } from "@/components/ui/professional-modal";
@@ -12,6 +12,7 @@ const professionalsData = [
     name: "Lic. Rocio Del Cielo Barros",
     title: "Psicóloga clínica. Creadora y coordinadora general de PsCielo.",
     imageSrc: "/imagenes/professional-1.jpeg",
+    imageWebp: "/imagenes/professional-1.webp",
     bio: `MP 9911
 
 Psicóloga clínica con diez años de ejercicio en la práctica clínica, formada en evaluación, diagnóstico y terapias innovadoras.
@@ -36,6 +37,7 @@ Su recorrido se sostiene en la solidez académica, pero también en la convicci�
     name: "Lic.María Laura Teillagorry",
     title: "Co-coordinadora de PsCielo.",
     imageSrc: "/imagenes/professional-3.jpeg",
+    imageWebp: "/imagenes/professional-3.webp",
     bio: `MP 8716
 
     Psicóloga con más de  diez años de ejercicio en la clínica, especialista en Terapia Cognitivo-Conductual y Terapias Contextuales. Acompaña a jóvenes y adultos en diferentes momentos vitales, ofreciendo un espacio de escucha, cuidado y trabajo conjunto. 
@@ -87,30 +89,68 @@ Su recorrido se sostiene en la solidez académica, pero también en la convicci�
     Además, cuenta con formación en evaluaciones psicológicas y realización de aptos psicológicos, ofreciendo informes claros y rigurosos para diferentes fines clínicos y administrativos.
     
     Su objetivo profesional es acompañar a las personas en el proceso de comprender lo que sienten, resignificar sus experiencias y desplegar recursos que les permitan alcanzar una vida más equilibrada y plena. Trabaja desde un enfoque integrativo, respetuoso y cercano, combinando herramientas actualizadas de la psicología con una mirada humana, orientada al cuidado y al bienestar.`
+  },
+  {
+    name: "Lic. Rocío N. Lopez Valazza",
+    title: "Licenciada en Psicología – Psicoterapeuta cognitivo-conductual.",
+    imageSrc: "/imagenes/ROC%C3%8DO%20N.%20LOPEZ%20VALAZZA.jpeg",
+    imageWebp: "/imagenes/ROC%C3%8DO%20N.%20LOPEZ%20VALAZZA.webp",
+    bio: `MP 13004
+
+Psicoterapeuta cognitivo-conductual.
+Especialización en Psicoterapia Cognitiva Integrativa (Fundación Aiglé).
+Diplomada en Trastornos de la Conducta Alimentaria (TCC).
+Atención a jóvenes y adultos (modalidad online y presencial).`
+  },
+  {
+    name: "Lic. Andrés Murua",
+    title: "Terapia de parejas · Terapias contextuales · DBT",
+    imageSrc: "/imagenes/LIC.%20ANDRES%20MURUA.jpeg",
+    imageWebp: "/imagenes/LIC.%20ANDRES%20MURUA.webp",
+    bio: `MP 14228
+
+Terapia de parejas desde el enfoque y formación en Terapia Integral de Parejas (IBCT).
+Psicólogo formado en terapias contextuales, DBT, intervención en crisis y abordaje de conductas de riesgo.
+Trabajo desde un enfoque centrado en la dignidad humana.
+Experiencia con personas que sufren de desregulación emocional y problemáticas asociadas. TLP, autolesiones, depresión.
+Experiencia en coordinación de grupos terapéuticos para personas con desregulación emocional, adicciones o dificultades comunicativas y sus familiares. Entrenamiento de habilidades.`
+  },
+  {
+    name: "Lic. Carla Lescano",
+    title: "Psicología y Danza Movimiento Terapeuta · Enfoque Humanista Gestalt",
+    imageSrc: "/imagenes/Carla%20Lescano.jpeg",
+    imageWebp: "/imagenes/Carla%20Lescano.webp",
+    bio: `MP 11261
+
+Lic. en Psicología y Danza Movimiento Terapeuta.
+Enfoque Humanista Gestalt y Neurociencia integrativa.
+Psicoterapia en Movimiento.
+Atención a personas jóvenes y adultas, individual y grupal.`
   }
 ];
 
 export default function ProfesionalesSection() {
   const [selectedProfessional, setSelectedProfessional] = useState<typeof professionalsData[0] | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="profesionales" className="fondo-nubes-animado relative min-h-screen w-full flex flex-col items-center justify-start py-8 sm:py-12 md:justify-center md:py-8 p-4 sm:p-6 md:p-8 overflow-hidden">
+    <section id="profesionales" className="fondo-nubes-animado relative w-full flex flex-col items-center justify-start py-6 sm:py-8 md:justify-center md:min-h-screen md:py-6 p-3 sm:p-4 md:p-6 overflow-hidden">
       {/* Estrellitas animadas - Solo en modo dark */}
       <StarsForSection section="profesionales" />
-      
+
       {/* Pajaritos volando aleatorios */}
       <FlyingBirds />
-      
-      {/* Título y Descripción */}
-      <motion.div 
-        className="text-center mb-6 md:mb-12 max-w-4xl"
+
+      {/* Título y Descripción - Compactos */}
+      <motion.div
+        className="text-center mb-4 md:mb-6 max-w-4xl"
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2 
-          className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold relative"
+        <motion.h2
+          className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold relative"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -138,31 +178,84 @@ export default function ProfesionalesSection() {
             Conoce a Nuestros Profesionales
           </motion.span>
         </motion.h2>
-        <p className="font-sans text-base sm:text-lg text-muted-foreground mt-2 md:mt-4 max-w-3xl mx-auto px-2 md:px-0">
+        <p className="font-sans text-sm sm:text-base text-muted-foreground mt-1 md:mt-2 max-w-3xl mx-auto px-2 md:px-0">
           Un equipo dedicado de expertos en salud mental, comprometidos con tu crecimiento y bienestar.
         </p>
       </motion.div>
 
-      {/* Grid de Tarjetas - Mobile en columna vertical */}
-      <div className="w-full max-w-7xl flex flex-col md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 px-2 sm:px-4 md:px-0">
+      {/* Desktop: Grid 2 filas × 4 columnas */}
+      <div className="w-full max-w-7xl hidden md:grid md:grid-cols-4 gap-3 lg:gap-4 px-2 lg:px-4">
         {professionalsData.map((prof, index) => (
-          <motion.div 
+          <motion.div
             key={prof.name}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="w-full max-w-sm mx-auto md:max-w-none"
+            transition={{ duration: 0.5, delay: index * 0.07 }}
+            className="w-full aspect-[3/4] max-h-[38vh]"
           >
             <ProfessionalCard
               name={prof.name}
               title={prof.title}
               imageSrc={prof.imageSrc}
-              layoutId={`card-container-${prof.name}`}
+              imageWebp={prof.imageWebp}
               onClick={() => setSelectedProfessional(prof)}
             />
           </motion.div>
         ))}
+      </div>
+
+      {/* Mobile: Carrusel horizontal swipeable */}
+      <div className="w-full md:hidden relative">
+        {/* Indicador de swipe */}
+        <div className="flex items-center justify-center gap-2 mb-2 text-muted-foreground/60">
+          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+          </svg>
+          <span className="text-xs font-sans">Desliza para ver más</span>
+          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </div>
+
+        <div
+          ref={scrollRef}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 px-3 scrollbar-hide"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          {professionalsData.map((prof, index) => (
+            <motion.div
+              key={prof.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="flex-shrink-0 snap-center w-[65vw] max-w-[260px] aspect-[3/4]"
+            >
+              <ProfessionalCard
+                name={prof.name}
+                title={prof.title}
+                imageSrc={prof.imageSrc}
+                imageWebp={prof.imageWebp}
+                onClick={() => setSelectedProfessional(prof)}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Dots indicator */}
+        <div className="flex justify-center gap-1.5 mt-1">
+          {professionalsData.map((prof, i) => (
+            <div
+              key={`dot-${prof.name}`}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${i < 4 ? 'bg-pink-400/80' : 'bg-pink-400/40'}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Modal */}
@@ -172,4 +265,4 @@ export default function ProfesionalesSection() {
       />
     </section>
   );
-} 
+}
