@@ -21,8 +21,10 @@ export default function WhatsAppButton() {
 
   // Función de tracking para GTM
   const handleWhatsAppClick = () => {
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (typeof window !== "undefined" && (window as Record<string, any>).dataLayer) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ((window as Record<string, any>).dataLayer as any[]).push({
         event: "whatsapp_click",
         click_url: whatsappUrl,
         click_text: "WhatsApp Button",
