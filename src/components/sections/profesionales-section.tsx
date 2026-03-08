@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ProfessionalCard } from "@/components/content/professional-card";
 import { ProfessionalModal } from "@/components/ui/professional-modal";
@@ -107,6 +107,7 @@ Atención a jóvenes y adultos (modalidad online y presencial).`
     title: "Terapia de parejas · Terapias contextuales · DBT",
     imageSrc: "/imagenes/LIC.%20ANDRES%20MURUA.jpeg",
     imageWebp: "/imagenes/LIC.%20ANDRES%20MURUA.webp",
+    imagePosition: "center 20%",
     bio: `MP 14228
 
 Terapia de parejas desde el enfoque y formación en Terapia Integral de Parejas (IBCT).
@@ -131,7 +132,6 @@ Atención a personas jóvenes y adultas, individual y grupal.`
 
 export default function ProfesionalesSection() {
   const [selectedProfessional, setSelectedProfessional] = useState<typeof professionalsData[0] | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
     <section id="profesionales" className="fondo-nubes-animado relative w-full flex flex-col items-center justify-start py-6 sm:py-8 md:justify-center md:min-h-screen md:py-6 p-3 sm:p-4 md:p-6 overflow-hidden">
@@ -199,63 +199,34 @@ export default function ProfesionalesSection() {
               title={prof.title}
               imageSrc={prof.imageSrc}
               imageWebp={prof.imageWebp}
+              imagePosition={prof.imagePosition}
               onClick={() => setSelectedProfessional(prof)}
             />
           </motion.div>
         ))}
       </div>
 
-      {/* Mobile: Carrusel horizontal swipeable */}
-      <div className="w-full md:hidden relative">
-        {/* Indicador de swipe */}
-        <div className="flex items-center justify-center gap-2 mb-2 text-muted-foreground/60">
-          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-          </svg>
-          <span className="text-xs font-sans">Desliza para ver más</span>
-          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </div>
-
-        <div
-          ref={scrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 px-3 scrollbar-hide"
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            WebkitOverflowScrolling: 'touch'
-          }}
-        >
-          {professionalsData.map((prof, index) => (
-            <motion.div
-              key={prof.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="flex-shrink-0 snap-center w-[65vw] max-w-[260px] aspect-[3/4]"
-            >
-              <ProfessionalCard
-                name={prof.name}
-                title={prof.title}
-                imageSrc={prof.imageSrc}
-                imageWebp={prof.imageWebp}
-                onClick={() => setSelectedProfessional(prof)}
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Dots indicator */}
-        <div className="flex justify-center gap-1.5 mt-1">
-          {professionalsData.map((prof, i) => (
-            <div
-              key={`dot-${prof.name}`}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i < 4 ? 'bg-pink-400/80' : 'bg-pink-400/40'}`}
+      {/* Mobile: Grid 2 columnas compacto */}
+      <div className="w-full md:hidden grid grid-cols-2 gap-2 px-2">
+        {professionalsData.map((prof, index) => (
+          <motion.div
+            key={prof.name}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
+            className="w-full aspect-[3/4]"
+          >
+            <ProfessionalCard
+              name={prof.name}
+              title={prof.title}
+              imageSrc={prof.imageSrc}
+              imageWebp={prof.imageWebp}
+              imagePosition={prof.imagePosition}
+              onClick={() => setSelectedProfessional(prof)}
             />
-          ))}
-        </div>
+          </motion.div>
+        ))}
       </div>
 
       {/* Modal */}

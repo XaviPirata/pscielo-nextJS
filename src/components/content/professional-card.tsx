@@ -5,10 +5,11 @@ type ProfessionalCardProps = {
   title: string;
   imageSrc: string;
   imageWebp?: string;
+  imagePosition?: string;
   onClick: () => void;
 };
 
-export const ProfessionalCard = ({ name, title, imageSrc, imageWebp, onClick }: ProfessionalCardProps) => {
+export const ProfessionalCard = ({ name, title, imageSrc, imageWebp, imagePosition, onClick }: ProfessionalCardProps) => {
   return (
     <div
       onClick={onClick}
@@ -25,11 +26,12 @@ export const ProfessionalCard = ({ name, title, imageSrc, imageWebp, onClick }: 
         <img
           src={imageSrc}
           alt={`Fotografía de ${name}`}
-          className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out 
-                     sepia-[0.6] saturate-[0.7] hue-rotate-[-15deg] brightness-[1.05] 
-                     group-hover:sepia-0 group-hover:saturate-100 group-hover:hue-rotate-0 group-hover:brightness-100 
+          className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out
+                     sepia-[0.6] saturate-[0.7] hue-rotate-[-15deg] brightness-[1.05]
+                     group-hover:sepia-0 group-hover:saturate-100 group-hover:hue-rotate-0 group-hover:brightness-100
                      group-hover:scale-105
-                     object-cover object-top`}
+                     object-cover ${imagePosition ? '' : 'object-top'}`}
+          style={imagePosition ? { objectPosition: imagePosition } : undefined}
           loading="lazy"
         />
       </picture>
